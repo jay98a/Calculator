@@ -2,12 +2,6 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/light_shade</item>
-        <item name="colorPrimaryDark">@color/dark_shade</item>
-        <item name="colorAccent">@color/white</item>
-    </style>
 
     <!-- ActionButtonStyle for keys "CLEAR" and "/". -->
     <style name="ActionButtonStyle">

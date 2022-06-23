@@ -1,23 +1,23 @@
-package com.example.calculator
+package jay.learning.calculator
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
-import net.objecthunter.exp4j.Expression
+import jay.learning.calculator.R
 import net.objecthunter.exp4j.ExpressionBuilder
 
 class MainActivity : AppCompatActivity() {
 
     var temp_no: String = ""
-    var operator_flag : Boolean = false
+    var operator_flag: Boolean = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        var num : String
+        var num: String
 
         val btn_one: Button = findViewById(R.id.btn_One)
         val btn_two: Button = findViewById(R.id.btn_Two)
@@ -35,7 +35,10 @@ class MainActivity : AppCompatActivity() {
         val btn_mul: Button = findViewById(R.id.btn_Mul)
         val btn_div: Button = findViewById(R.id.btn_Divide)
 
+        val btn_dot: Button = findViewById(R.id.btn_Dot)
+
         val btn_clear: Button = findViewById(R.id.btn_Clear)
+        val btn_del: Button = findViewById(R.id.btn_Back)
         val btn_equalTo: Button = findViewById(R.id.btn_Equals)
 
         val tv_expression: TextView = findViewById(R.id.tvExpression)
@@ -93,59 +96,90 @@ class MainActivity : AppCompatActivity() {
             appendLast(num, tv_expression)
         }
 
+        btn_dot.setOnClickListener {
+            num = btn_dot.text.toString()
+            operator_flag = false
+            appendLast(num, tv_expression)
+        }
+
         // action buttons onclicklistners
         btn_plus.setOnClickListener {
             num = btn_plus.text.toString()
-            actionBtn_condition_checks(num,operator_flag,tv_expression)
-
+            if (tv_expression.text.toString().isNotEmpty()) {
+                actionBtn_condition_checks(num, operator_flag, tv_expression)
+            }
         }
         btn_minus.setOnClickListener {
             num = btn_minus.text.toString()
-            actionBtn_condition_checks(num,operator_flag,tv_expression)
+            if (tv_expression.text.toString().isNotEmpty()) {
+                actionBtn_condition_checks(num, operator_flag, tv_expression)
+            }
         }
         btn_mul.setOnClickListener {
             num = btn_mul.text.toString()
-            if(!tv_expression.text.toString().isEmpty()) {
-                actionBtn_condition_checks(num,operator_flag,tv_expression)
+            if (tv_expression.text.toString().isNotEmpty()) {
+                actionBtn_condition_checks(num, operator_flag, tv_expression)
             }
         }
         btn_div.setOnClickListener {
             num = btn_div.text.toString()
-            if(!tv_expression.text.toString().isEmpty()){
-                actionBtn_condition_checks(num,operator_flag,tv_expression)
+            if (tv_expression.text.toString().isNotEmpty()) {
+                actionBtn_condition_checks(num, operator_flag, tv_expression)
             }
         }
 
         // equals button onclickListner
         btn_equalTo.setOnClickListener {
-            val expression = ExpressionBuilder(tv_expression.text.toString()).build()
-            try {
-                val result = expression.evaluate().toString()
-                tv_result.setText(result)
-            }catch (ex: Exception){
-                tv_result.setText("Error")
+            if (tv_expression.text.isNotEmpty()) {
+                val expression = ExpressionBuilder(tv_expression.text.toString()).build()
+                try {
+                    val result = expression.evaluate().toString()
+                    tv_result.text = result
+                } catch (ex: Exception) {
+                    tv_result.text = "Error"
+                }
             }
         }
 
+        // clear and delete button
+        btn_clear.setOnClickListener {
+            tv_expression.text = ""
+            tv_result.text = ""
+            operator_flag = false
+        }
 
+        btn_del.setOnClickListener {
+            if (tv_expression.text.isNotEmpty()) {
+                try {
+                    var new_Tempstr = tv_expression.text.toString()
+                        .substring(0, tv_expression.text.toString().length - 1)
+                    tv_expression.text = new_Tempstr
+                    operator_flag = !new_Tempstr.get(new_Tempstr.length - 1).isDigit()
+                } catch (ex: Exception) {
+                    tv_expression.text = ""
+                    operator_flag = false
+                }
+            }
+        }
     }
 
     private fun actionBtn_condition_checks(num: String, operatorFlag: Boolean, tvExpression: TextView) {
-        if(!operator_flag){
-            appendLast(num,tvExpression)
+        if (!operator_flag) {
+            appendLast(num, tvExpression)
             operator_flag = true
-        }else{
-            var temp_str = tvExpression.text.toString().substring(0,tvExpression.text.toString().length - 1)
+        } else {
+            var temp_str =
+                tvExpression.text.toString().substring(0, tvExpression.text.toString().length - 1)
             temp_str = temp_str + num
-            tvExpression.setText(temp_str)
+            tvExpression.text = temp_str
         }
     }
 
     private fun appendLast(num: String, tvExpression: TextView) {
         if (tvExpression.text.toString().isEmpty()) {
-            tvExpression.setText(num)
+            tvExpression.text = num
         } else {
-            tvExpression.setText(tvExpression.text.toString() + num)
+            tvExpression.text = tvExpression.text.toString() + num
         }
     }
 }

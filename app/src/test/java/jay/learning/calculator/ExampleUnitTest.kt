@@ -1,4 +1,4 @@
-package com.example.calculator
+package jay.learning.calculator
 
 import org.junit.Test
 
