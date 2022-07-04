@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.appcompat.widget.LinearLayoutCompat
-    xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context="jay.learning.calculator.MainActivity"
-        android:background="@android:color/black"
-        android:orientation="vertical">
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    tools:context="jay.learning.calculator.MainActivity"
+    android:background="@android:color/black"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/tvExpression"
@@ -170,7 +170,25 @@
 
         </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.8"
+        android:orientation="horizontal">
+
+        <com.google.android.gms.ads.AdView
+            android:id="@+id/adView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            ads:adSize="BANNER"
+            ads:adUnitId="ca-app-pub-1874652612878142/5096509237"
+            />
+        <!-- App Id ads:adUnitId="ca-app-pub-1874652612878142/5096509237" -->
+        <!-- Test Id ads:adUnitId="ca-app-pub-3940256099942544/6300978111" -->
     </LinearLayout>
 
+    </LinearLayout>
 
 </androidx.appcompat.widget.LinearLayoutCompat>

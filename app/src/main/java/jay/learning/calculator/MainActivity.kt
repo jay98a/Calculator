@@ -4,18 +4,27 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
-import jay.learning.calculator.R
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
 import net.objecthunter.exp4j.ExpressionBuilder
+import com.google.android.gms.ads.MobileAds
+
 
 class MainActivity : AppCompatActivity() {
 
     var temp_no: String = ""
     var operator_flag: Boolean = false
-
+    lateinit var mAdView : AdView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+
+        MobileAds.initialize(this)
+        mAdView = findViewById(R.id.adView)
+        val adRequest = AdRequest.Builder().build()
+        mAdView.loadAd(adRequest)
 
         var num: String
 
@@ -106,25 +115,25 @@ class MainActivity : AppCompatActivity() {
         btn_plus.setOnClickListener {
             num = btn_plus.text.toString()
             if (tv_expression.text.toString().isNotEmpty()) {
-                actionBtn_condition_checks(num, operator_flag, tv_expression)
+                actionBtn_condition_checks(num, tv_expression)
             }
         }
         btn_minus.setOnClickListener {
             num = btn_minus.text.toString()
             if (tv_expression.text.toString().isNotEmpty()) {
-                actionBtn_condition_checks(num, operator_flag, tv_expression)
+                actionBtn_condition_checks(num,tv_expression)
             }
         }
         btn_mul.setOnClickListener {
             num = btn_mul.text.toString()
             if (tv_expression.text.toString().isNotEmpty()) {
-                actionBtn_condition_checks(num, operator_flag, tv_expression)
+                actionBtn_condition_checks(num, tv_expression)
             }
         }
         btn_div.setOnClickListener {
             num = btn_div.text.toString()
             if (tv_expression.text.toString().isNotEmpty()) {
-                actionBtn_condition_checks(num, operator_flag, tv_expression)
+                actionBtn_condition_checks(num, tv_expression)
             }
         }
 
@@ -163,7 +172,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun actionBtn_condition_checks(num: String, operatorFlag: Boolean, tvExpression: TextView) {
+    private fun actionBtn_condition_checks(num: String, tvExpression: TextView) {
         if (!operator_flag) {
             appendLast(num, tvExpression)
             operator_flag = true
